@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
+  const [usersState, setUsersState] = useState([]);
+
+  useEffect(() => {
+    fetch("https://61acefffd228a9001703ac7e.mockapi.io/api/v1/users")
+      .then((res) => res.json())
+      .then((users) => {
+        setUsersState(users);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ul>
+        {usersState.map((user) => {
+          return <li key={user.id}>{user.name}</li>;
+        })}
+      </ul>
     </div>
   );
 }
